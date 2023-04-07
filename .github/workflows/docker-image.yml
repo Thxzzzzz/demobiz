@@ -2,16 +2,16 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - '*'
 
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Get tag
+      -
+        name: Get tag
         id: tag
         uses: devops-actions/action-get-tag@v1.0.1
         with:
