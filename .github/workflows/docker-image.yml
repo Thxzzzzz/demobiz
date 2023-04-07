@@ -11,6 +11,12 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Get tag
+        id: tag
+        uses: devops-actions/action-get-tag@v1.0.1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: false
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -23,14 +29,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      -
-        name: Get tag
-        id: tag
-        uses: devops-actions/action-get-tag@v1.0.1
-        with:
-          # Optionally strip `v` prefix
-          strip_v: false
 
       - # set latest git tag form github context
         name: Set env
