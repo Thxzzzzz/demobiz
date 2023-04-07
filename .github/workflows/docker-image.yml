@@ -18,7 +18,7 @@ jobs:
       id: vars
       run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag 379809513/demo-biz:${{ steps.vars.outputs.TAG }}
+      run: docker build --file Dockerfile -t 379809513/demo-biz:${{ steps.vars.outputs.TAG }} .
       
       
     - name: Login to Docker Hub
