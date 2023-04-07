@@ -24,11 +24,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      -
+        name: Get tag
+        id: tag
+        uses: devops-actions/action-get-tag@v1.1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: false
+
       - # set latest git tag form github context
         name: Set env
         run: |
           echo "DOCKER_IMAGE=379809513/demo-biz" >> $GITHUB_ENV
-          echo "DOCKER_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "DOCKER_TAG=${{steps.tag.outputs.tag}}" >> $GITHUB_ENV
       -
         name: Build and push
         uses: docker/build-push-action@v4
