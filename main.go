@@ -15,7 +15,7 @@ import (
 func main() {
 	// log with time and line
 	log.SetFlags(log.Lshortfile | log.Ldate | log.Lmicroseconds)
-	log.Println("v2.3")
+	log.Println("v2.31")
 	log.Println("this is biz server")
 
 	sidecarMode := flag.Bool("sidecar", false, "sidecar mode")
