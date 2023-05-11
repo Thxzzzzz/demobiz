@@ -1,26 +1,35 @@
-- name: report image
+name: Docker Image CI
+
 on:
   push:
-    tags:
-      - '*'
-  with:
-    # Codefresh token used to perform authentication with your account.  It is recommended to store as a secret variable. !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
-    # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
-    CF_API_KEY: '{{ secrets.CF_API_KEY }}'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    environment:
+      name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: report image
+        with:
+          # Codefresh token used to perform authentication with your account.  It is recommended to store as a secret variable. !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
+          # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
+          CF_API_KEY: '{{ secrets.CF_API_KEY }}'
 
-    # The name of the runtime that will perform the enrichment. All Integrations must configured on this runtime
-    CF_RUNTIME_NAME: 'codefresh-hosted'
+          # The name of the runtime that will perform the enrichment. All Integrations must configured on this runtime
+          CF_RUNTIME_NAME: 'codefresh-hosted'
 
-    # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
-    CF_IMAGE: '379809513/demo-biz:v2.32'
+          # Image reported and enriched in Codefresh. Pass the [account-name]/[image-name]:[tag] built in your CI.
+          CF_IMAGE: '379809513/demo-biz:v2.32'
 
-    # The explicit ghcr authentication
-    CF_REGISTRY_USERNAME: "${{ github.actor }}"
-    CF_REGISTRY_PASSWORD: "${{ secrets.GITHUB_TOKEN }}"
-    CF_REGISTRY_DOMAIN: "ghcr.io"
+          # The explicit ghcr authentication
+          CF_REGISTRY_USERNAME: "${{ github.actor }}"
+          CF_REGISTRY_PASSWORD: "${{ secrets.GITHUB_TOKEN }}"
+          CF_REGISTRY_DOMAIN: "ghcr.io"
 
-    # Commit and Pull request data from this branch will be added to the image. Pass the Branch from the event payload used to trigger your action.
-    CF_GIT_BRANCH: 'main'
+          # Commit and Pull request data from this branch will be added to the image. Pass the Branch from the event payload used to trigger your action.
+          CF_GIT_BRANCH: 'main'
 
 
-  uses: codefresh-io/codefresh-report-image@latest
+        uses: codefresh-io/codefresh-report-image@latest
