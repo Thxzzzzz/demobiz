@@ -1,4 +1,8 @@
 - name: report image
+on:
+  push:
+    tags:
+      - '*'
   with:
     # Codefresh token used to perform authentication with your account.  It is recommended to store as a secret variable. !! Committing a plain text token is a security risk. We highly recommend using encrypted secrets. !!
     # Documentation - https://docs.github.com/en/actions/security-guides/encrypted-secrets
@@ -16,7 +20,7 @@
     CF_REGISTRY_DOMAIN: "ghcr.io"
 
     # Commit and Pull request data from this branch will be added to the image. Pass the Branch from the event payload used to trigger your action.
-    CF_GIT_BRANCH: '[name-of-your-git-branch]'
+    CF_GIT_BRANCH: 'main'
 
 
   uses: codefresh-io/codefresh-report-image@latest
