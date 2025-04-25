@@ -12,35 +12,15 @@ import (
 	"time"
 )
 
+const version = "v1.0.0"
+
 func main() {
 	// log with time and line
 	log.SetFlags(log.Lshortfile | log.Ldate | log.Lmicroseconds)
-	log.Println("v2.31")
+	log.Println(version)
 	log.Println("this is biz server")
 
-	sidecarMode := flag.Bool("sidecar", false, "sidecar mode")
 	flag.Parse()
-
-	if *sidecarMode {
-		// try to connect 9000 port with 200ms  timeout
-		log.Println("try to connect sidecar ...")
-		var sidecarReady = false
-		for i := 0; i < 2; i++ {
-			err := checkSidecar()
-			if err != nil {
-				log.Printf("sidecar not ready [%d] err:%v \n", i, err)
-			} else {
-				sidecarReady = true
-				break
-			}
-			time.Sleep(time.Millisecond * 500)
-		}
-		if !sidecarReady {
-			log.Fatal("sidecar not ready, exit ...")
-		}
-		log.Println("sidecar ready")
-
-	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", Hello)
@@ -82,11 +62,12 @@ func Default(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		content += ", pod name : " + podName
+		content += ", version: " + version
 
 		w.Write([]byte(content))
 		return
 	} else {
-		w.Write([]byte("this is biz server"))
+		w.Write([]byte("this is biz server, version: " + version))
 		return
 	}
 
